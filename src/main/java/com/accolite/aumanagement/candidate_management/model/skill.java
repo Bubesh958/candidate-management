@@ -1,9 +1,20 @@
 package com.accolite.aumanagement.candidate_management.model;
 
-public class skill 
+public class Skill 
 {
 	private int skillid;
 	private String skill;
+	
+	public Skill()
+	{
+		
+	}
+	
+	public Skill(int skillid, String skill) {
+		super();
+		this.skillid = skillid;
+		this.skill = skill;
+	}
 	
 	public int getSkillid() {
 		return skillid;
