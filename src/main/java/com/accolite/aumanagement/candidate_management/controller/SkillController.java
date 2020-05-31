@@ -3,11 +3,14 @@ package com.accolite.aumanagement.candidate_management.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accolite.aumanagement.candidate_management.model.Location;
 import com.accolite.aumanagement.candidate_management.model.Skill;
 import com.accolite.aumanagement.candidate_management.repository.SkillRepository;
 
@@ -20,8 +23,13 @@ public class SkillController
 	SkillRepository skillRepository;
 	
 	@GetMapping
-	public List<Skill> getAllSkills()
+	public ResponseEntity<?> getAllSkills()
 	{
-		return skillRepository.getSkill();
+		List<Skill> skills = null;
+		skills = skillRepository.getSkills();
+		if(skills.isEmpty())
+			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
+		return new ResponseEntity<List<Skill>>(skills,HttpStatus.OK);
 	}
+	
 }

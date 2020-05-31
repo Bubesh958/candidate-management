@@ -3,6 +3,7 @@ package com.accolite.aumanagement.candidate_management.repository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +16,13 @@ public class SkillRepository
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
-	public List<Skill> getSkill()
+	public List<Skill> getSkills()
 	{
-		return jdbcTemplate.query("select * from skills", new SkillRowMapper());
+		try {
+			return jdbcTemplate.query("select * from skills", new SkillRowMapper());
+		} catch (DataAccessException e) {
+			return null;
+		}
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,30 +44,35 @@ public class CandidateController
 		return new ResponseEntity<List<Candidate>>(candidates,HttpStatus.OK);
 	}
 	
-	@GetMapping("/{empid}")
-	public ResponseEntity<?> getCandidateById(@PathVariable("empid") String empid)
-	{
-		List<Candidate> candidate = candidateRepository.getCandidateByEmpId(empid);
-		if(candidate.isEmpty())
-		{
-			return new ResponseEntity<String>(" The Emp Id Not Empty",HttpStatus.NOT_FOUND); 
-		}
-		else
-		{
-			return new ResponseEntity<List<Candidate>>(candidate,HttpStatus.OK);
-		}
-	}
+
 	
 	@GetMapping("/{value}")
 	public ResponseEntity<?> getCandidateBy(@RequestParam(value="by") String by,@PathVariable("value") String value)
 	{
 		List<Candidate> candidate = null;
-		if(by.equals("id"))
+		switch(by)
+		{
+			case "id" :
 				candidate = candidateRepository.getCandidateByEmpId(value);
-		else
-			if(by.equals("location"))
-				candidate = candidateRepository.get
-		return null;
+				break;
+			case "location":
+				candidate = candidateRepository.getCandidateByLocation(value);
+				break;
+			case "institute":
+				candidate = candidateRepository.getCandidateByInstitute(value);
+				break;
+			case "jobdescription":
+				candidate = candidateRepository.getCandidateByJobDescription(value);
+				break;
+			case "skill":
+				candidate = candidateRepository.getCandidateBySkill(value);
+				break;
+			default :
+				return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND); 
+					
+		}
+		
+		return new ResponseEntity<List<Candidate>>(candidate,HttpStatus.OK);
 	}
 	
 	
@@ -88,6 +94,21 @@ public class CandidateController
 		{
 			return new ResponseEntity("Duplicate Entry",HttpStatus.IM_USED);
 		}
+	}
+	
+	@PutMapping
+	public ResponseEntity<String> updateCandidate(@RequestBody Candidate candidate)
+	{
+		candidateRepository.updateCandidate(candidate);
+		List<EmpSkill> empskills = (candidate.getSkills()
+									.stream()
+									.map(s -> new EmpSkill(candidate.getEmpid(),s.getSkillid()))
+									.collect(Collectors.toList()) 
+									);
+		empSkillRepository.deleteEmpSkillById(candidate.getEmpid());
+		empSkillRepository.saveEmpSkill(empskills);
+		return new ResponseEntity("Deleted",HttpStatus.NO_CONTENT);
+		
 	}
 }
 

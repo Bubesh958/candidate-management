@@ -3,6 +3,7 @@ package com.accolite.aumanagement.candidate_management.repository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +21,11 @@ public class LocationRepository
 	
 	public List<Location> getAllLocations()
 	{
-		return jdbcTemplate.query("select * from locations", new LocationRowMapper());
+		try {
+			return jdbcTemplate.query("select * from locations", new LocationRowMapper());
+		} catch (DataAccessException e) {
+			return null;
+		}
 	}
 
 }
