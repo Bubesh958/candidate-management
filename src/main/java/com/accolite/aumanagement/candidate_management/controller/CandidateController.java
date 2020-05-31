@@ -1,5 +1,6 @@
 package com.accolite.aumanagement.candidate_management.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,17 @@ public class CandidateController
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<List<Candidate>>(candidates,HttpStatus.OK);
+	}
+	
+	@GetMapping("/empids")
+	public ResponseEntity<?> getAllCandidatesEmpId()
+	{
+		List<String> candidatesEmpIds = candidateRepository.getAllCandidateEmpIds();
+		if(candidatesEmpIds.isEmpty())
+		{
+			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<String>>(candidatesEmpIds,HttpStatus.OK);
 	}
 	
 
@@ -111,5 +123,86 @@ public class CandidateController
 		
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//
+//@GetMapping("/test")
+//public List<String> test()
+//{
+//	List<String> states = new ArrayList<>();
+//	states.add("aaaa");
+//	states.add("bbbb");
+//	states.add("cccc");
+//	states.add("alaska");
+//	states.add("alabama");
+//	states.add("eeee");
+//	states.add("eeee");
+//	states.add("eeee");
+//	states.add("eeee");
+//	states.add("eeee");
+//	states.add("eeee");
+//	states.add("eeee");
+//	states.add("eeee");
+//	states.add("eeee");
+//	states.add("eeee");
+//	states.add("eeee");
+//	return states;
+//}
+//
+//@GetMapping("/test1")
+//public List<String> test1()
+//{
+//	List<String> states = new ArrayList<>();
+//	states.add("aaaa");
+//	states.add("bbbb");
+//	states.add("cccc");
+//	states.add("alaska");
+//	states.add("alabama");
+//	states.add("ffff");
+//	states.add("ffff");
+//	states.add("ffff");
+//	states.add("ffff");
+//	states.add("ffff");
+//	states.add("ffff");
+//	states.add("ffff");
+//	states.add("ffff");
+//	states.add("ffff");
+//	states.add("ffff");
+//	states.add("ffff");
+//	states.add("ffff");
+//	return states;
+//}
 
 

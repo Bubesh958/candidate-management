@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.accolite.aumanagement.candidate_management.model.Candidate;
 import com.accolite.aumanagement.candidate_management.model.mapper.CandidateAllDetailsMapper;
+import com.accolite.aumanagement.candidate_management.model.mapper.CandidateEmpIdsRowMapper;
 
 @Repository
 public class CandidateRepository 
@@ -80,6 +81,17 @@ public class CandidateRepository
 		
 		try {
 			return jdbcTemplate.query(CANDIDATE_BY_SKILL, new CandidateAllDetailsMapper());
+		} catch (DataAccessException e) {
+			return null;
+		}
+	}
+	
+	public List<String> getAllCandidateEmpIds()
+	{
+		String CANDIDATE_EMPIDS = "SELECT empid from candidates";
+
+		try {
+			return jdbcTemplate.query(CANDIDATE_EMPIDS , new CandidateEmpIdsRowMapper());
 		} catch (DataAccessException e) {
 			return null;
 		}

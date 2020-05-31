@@ -32,4 +32,6 @@ public class SkillController
 		return new ResponseEntity<List<Skill>>(skills,HttpStatus.OK);
 	}
 	
+	
+
 }
