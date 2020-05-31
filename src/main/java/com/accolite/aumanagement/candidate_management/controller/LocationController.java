@@ -8,21 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.accolite.aumanagement.candidate_management.model.EmpSkill;
-import com.accolite.aumanagement.candidate_management.repository.EmpSkillRepository;
+import com.accolite.aumanagement.candidate_management.model.Location;
+import com.accolite.aumanagement.candidate_management.repository.LocationRepository;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/empskills")
-public class EmpSkillController 
+@RequestMapping("/locations")
+public class LocationController 
 {
 	@Autowired
-	EmpSkillRepository empSkillRepository;
+	LocationRepository locationRepository;
 	
 	@GetMapping
-	public List<EmpSkill> getAllEmpSkills()
+	public List<Location> getAllLocations()
 	{
-		return empSkillRepository.getEmpSkill();
+		return locationRepository.getAllLocations();
 	}
 }
-
