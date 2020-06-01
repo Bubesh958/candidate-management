@@ -1,4 +1,4 @@
-package com.accolite.aumanagement.candidate_management.repository;
+package com.accolite.aumanagement.candidate_management.dao.dao_impl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -10,16 +10,18 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.accolite.aumanagement.candidate_management.dao.EmpSkillDao;
 import com.accolite.aumanagement.candidate_management.model.EmpSkill;
 import com.accolite.aumanagement.candidate_management.model.Skill;
 import com.accolite.aumanagement.candidate_management.model.mapper.EmpSkillRowMapper;
 
 @Repository
-public class EmpSkillRepository 
+public class EmpSkillDaoImpl implements EmpSkillDao 
 {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	@Override
 	public List<EmpSkill> getEmpSkills()
 	{
 		String SELECT_ALL_EMPSKILL = "select * from emp_skills";
@@ -34,6 +36,7 @@ public class EmpSkillRepository
 	}
 
 	
+	@Override
 	public boolean saveEmpSkill(List<EmpSkill> empSkills)
 	{
 		String INSERT_INTO_EMPSKILL = "INSERT INTO emp_skills VALUES (?,?)";
@@ -63,6 +66,7 @@ public class EmpSkillRepository
 		return true;
 	}
 	
+	@Override
 	public boolean deleteEmpSkillById(String empid)
 	{
 		String DELETE_EMPSKILLS_BY_ID = "DELETE from emp_skills where empid = ?";

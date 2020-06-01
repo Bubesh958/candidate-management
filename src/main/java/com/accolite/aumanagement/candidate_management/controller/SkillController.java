@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accolite.aumanagement.candidate_management.dao.SkillDao;
 import com.accolite.aumanagement.candidate_management.model.Location;
 import com.accolite.aumanagement.candidate_management.model.Skill;
-import com.accolite.aumanagement.candidate_management.repository.SkillRepository;
 
 @CrossOrigin
 @RestController
@@ -20,7 +20,7 @@ import com.accolite.aumanagement.candidate_management.repository.SkillRepository
 public class SkillController 
 {
 	@Autowired
-	SkillRepository skillRepository;
+	SkillDao skillRepository;
 	
 	@GetMapping
 	public ResponseEntity<?> getAllSkills()

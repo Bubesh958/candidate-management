@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accolite.aumanagement.candidate_management.dao.LocationDao;
 import com.accolite.aumanagement.candidate_management.model.JobDescription;
 import com.accolite.aumanagement.candidate_management.model.Location;
-import com.accolite.aumanagement.candidate_management.repository.LocationRepository;
 
 @CrossOrigin
 @RestController
@@ -20,7 +20,7 @@ import com.accolite.aumanagement.candidate_management.repository.LocationReposit
 public class LocationController 
 {
 	@Autowired
-	LocationRepository locationRepository;
+	LocationDao locationRepository;
 	
 
 	@GetMapping

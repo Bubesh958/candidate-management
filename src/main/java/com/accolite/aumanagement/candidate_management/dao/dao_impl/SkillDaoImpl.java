@@ -1,4 +1,4 @@
-package com.accolite.aumanagement.candidate_management.repository;
+package com.accolite.aumanagement.candidate_management.dao.dao_impl;
 
 import java.util.List;
 
@@ -7,15 +7,17 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.accolite.aumanagement.candidate_management.dao.SkillDao;
 import com.accolite.aumanagement.candidate_management.model.Skill;
 import com.accolite.aumanagement.candidate_management.model.mapper.SkillRowMapper;
 
 @Repository
-public class SkillRepository 
+public class SkillDaoImpl implements SkillDao 
 {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	@Override
 	public List<Skill> getSkills()
 	{
 		try {

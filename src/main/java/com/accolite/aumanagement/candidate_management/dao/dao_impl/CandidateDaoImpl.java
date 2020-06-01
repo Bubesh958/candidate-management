@@ -1,4 +1,4 @@
-package com.accolite.aumanagement.candidate_management.repository;
+package com.accolite.aumanagement.candidate_management.dao.dao_impl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,16 +11,18 @@ import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
+import com.accolite.aumanagement.candidate_management.dao.CandidateDao;
 import com.accolite.aumanagement.candidate_management.model.Candidate;
 import com.accolite.aumanagement.candidate_management.model.mapper.CandidateAllDetailsMapper;
 import com.accolite.aumanagement.candidate_management.model.mapper.CandidateEmpIdsRowMapper;
 
 @Repository
-public class CandidateRepository 
+public class CandidateDaoImpl implements CandidateDao 
 {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	@Override
 	public List<Candidate> getAllCandidate()
 	{	
 		String CANDIDATES_WITH_ALL_DETAILS = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid;";
@@ -30,6 +32,7 @@ public class CandidateRepository
 	
 
 
+	@Override
 	public List<Candidate> getCandidateByEmpId(String empid)
 	{
 		String CANDIDATE_BY_ID = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where candidates.empid = '"+empid+"';";
@@ -41,6 +44,7 @@ public class CandidateRepository
 		}
 	}
 	
+	@Override
 	public List<Candidate> getCandidateByLocation(String location)
 	{
 		String CANDIDATE_BY_LOCATION = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where locations.location= '"+location+"';";
@@ -53,6 +57,7 @@ public class CandidateRepository
 	}
 	
 	
+	@Override
 	public List<Candidate> getCandidateByInstitute(String institute)
 	{
 		String CANDIDATE_BY_INSTITUTE = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where institutes.institute= '"+institute+"';";
@@ -64,6 +69,7 @@ public class CandidateRepository
 		}
 	}
 	
+	@Override
 	public List<Candidate> getCandidateByJobDescription(String jobdescription)
 	{
 		String CANDIDATE_BY_JOBDESCRIPTION = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where jobdescriptions.jobdescription= '"+jobdescription+"';";
@@ -75,6 +81,7 @@ public class CandidateRepository
 		}
 	}
 	
+	@Override
 	public List<Candidate> getCandidateBySkill(String skill)
 	{
 		String CANDIDATE_BY_SKILL = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where skills.skill= '"+skill+"';";
@@ -86,6 +93,7 @@ public class CandidateRepository
 		}
 	}
 	
+	@Override
 	public List<String> getAllCandidateEmpIds()
 	{
 		String CANDIDATE_EMPIDS = "SELECT empid from candidates";
@@ -98,6 +106,7 @@ public class CandidateRepository
 	}
 	
 	
+	@Override
 	public boolean saveCandidate(Candidate candidate)
 	{
 		String INSERT_INTO_CANDIDATE = "INSERT INTO candidates VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -121,6 +130,7 @@ public class CandidateRepository
 		
 	}
 	
+	@Override
 	public boolean updateCandidate(Candidate candidate)
 	{
 		String UPDATE_INTO_CANDIDATE = "UPDATE candidates SET firstname = ?, lastname = ?, instituteid = ?, locationid = ?, joiningdate = ?, jobdescriptionid = ?, feedback = ?, contactnumber = ?, email = ? WHERE empid = ?;";
@@ -143,11 +153,12 @@ public class CandidateRepository
 			});
 	}
 	
-	public boolean deleteCandidate(Candidate candidate)
+	@Override
+	public boolean deleteCandidateById(String empId)
 	{
 		try {
-			jdbcTemplate.update("delete from emp_skills where empid= ?",candidate.getEmpid());
-			jdbcTemplate.update("delete from candidates where empid= ?",candidate.getEmpid());
+			jdbcTemplate.update("delete from emp_skills where empid= ?",empId);
+			jdbcTemplate.update("delete from candidates where empid= ?",empId);
 		} catch (DataAccessException e) {
 			return false;
 		}

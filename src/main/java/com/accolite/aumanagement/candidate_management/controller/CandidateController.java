@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accolite.aumanagement.candidate_management.dao.CandidateDao;
+import com.accolite.aumanagement.candidate_management.dao.EmpSkillDao;
+import com.accolite.aumanagement.candidate_management.dao.dao_impl.SkillDaoImpl;
 import com.accolite.aumanagement.candidate_management.model.Candidate;
 import com.accolite.aumanagement.candidate_management.model.EmpSkill;
-import com.accolite.aumanagement.candidate_management.repository.CandidateRepository;
-import com.accolite.aumanagement.candidate_management.repository.EmpSkillRepository;
-import com.accolite.aumanagement.candidate_management.repository.SkillRepository;
 
 @CrossOrigin
 @RestController
@@ -29,10 +30,10 @@ import com.accolite.aumanagement.candidate_management.repository.SkillRepository
 public class CandidateController 
 {
 	@Autowired
-	CandidateRepository candidateRepository;
+	CandidateDao candidateRepository;
 	
 	@Autowired
-	EmpSkillRepository empSkillRepository;
+	EmpSkillDao empSkillRepository;
 	
 	@GetMapping
 	public ResponseEntity<?> getAllCandidates()
@@ -109,7 +110,7 @@ public class CandidateController
 	}
 	
 	@PutMapping
-	public ResponseEntity<String> updateCandidate(@RequestBody Candidate candidate)
+	public ResponseEntity<?> updateCandidate(@RequestBody Candidate candidate)
 	{
 		candidateRepository.updateCandidate(candidate);
 		List<EmpSkill> empskills = (candidate.getSkills()
@@ -119,8 +120,16 @@ public class CandidateController
 									);
 		empSkillRepository.deleteEmpSkillById(candidate.getEmpid());
 		empSkillRepository.saveEmpSkill(empskills);
-		return new ResponseEntity("Deleted",HttpStatus.NO_CONTENT);
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
 		
+	}
+	
+	@DeleteMapping("/{empid}")
+	public ResponseEntity<String> deleteCandidate(@PathVariable String empid)
+	{
+		empSkillRepository.deleteEmpSkillById(empid);
+		candidateRepository.deleteCandidateById(empid);
+		return new ResponseEntity(HttpStatus.NO_CONTENT);
 	}
 }
 

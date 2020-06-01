@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accolite.aumanagement.candidate_management.dao.EmpSkillDao;
 import com.accolite.aumanagement.candidate_management.model.EmpSkill;
 import com.accolite.aumanagement.candidate_management.model.Institute;
-import com.accolite.aumanagement.candidate_management.repository.EmpSkillRepository;
 
 @CrossOrigin
 @RestController
@@ -20,7 +20,7 @@ import com.accolite.aumanagement.candidate_management.repository.EmpSkillReposit
 public class EmpSkillController 
 {
 	@Autowired
-	EmpSkillRepository empSkillRepository;
+	EmpSkillDao empSkillRepository;
 	
 
 	@GetMapping

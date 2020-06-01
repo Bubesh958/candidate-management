@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.accolite.aumanagement.candidate_management.dao.JobDescriptionDao;
+import com.accolite.aumanagement.candidate_management.dao.dao_impl.InstituteDaoImpl;
 import com.accolite.aumanagement.candidate_management.model.Institute;
 import com.accolite.aumanagement.candidate_management.model.JobDescription;
-import com.accolite.aumanagement.candidate_management.repository.InstituteRepository;
-import com.accolite.aumanagement.candidate_management.repository.JobDescriptionRepository;
 
 @CrossOrigin
 @RestController
@@ -21,7 +21,7 @@ import com.accolite.aumanagement.candidate_management.repository.JobDescriptionR
 public class JobDescriptionController 
 {
 	@Autowired
-	JobDescriptionRepository jobDescriptionRepository;
+	JobDescriptionDao jobDescriptionRepository;
 	
 	@GetMapping
 	public ResponseEntity<?> getAllJobDescriptions()
