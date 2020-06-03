@@ -35,7 +35,15 @@ public class CandidateDaoImpl implements CandidateDao
 	@Override
 	public List<Candidate> getCandidateByEmpId(String empid)
 	{
-		String CANDIDATE_BY_ID = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where candidates.empid = '"+empid+"';";
+		StringBuilder pattern = new StringBuilder();
+
+		for (char c: empid.toCharArray()) {
+		   pattern.append(c).append("%");
+		}
+		
+//		System.out.println(pattern);
+		
+		String CANDIDATE_BY_ID = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where candidates.empid LIKE '%"+pattern+"';";
 
 		try {
 			return jdbcTemplate.query(CANDIDATE_BY_ID, new CandidateAllDetailsMapper());
@@ -47,7 +55,14 @@ public class CandidateDaoImpl implements CandidateDao
 	@Override
 	public List<Candidate> getCandidateByLocation(String location)
 	{
-		String CANDIDATE_BY_LOCATION = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where locations.location= '"+location+"';";
+		StringBuilder pattern = new StringBuilder();
+
+		for (char c: location.toCharArray()) {
+		   pattern.append(c).append("%");
+		}
+		
+		
+		String CANDIDATE_BY_LOCATION = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where locations.location LIKE '%"+pattern+"';";
 		
 		try {
 			return jdbcTemplate.query(CANDIDATE_BY_LOCATION, new CandidateAllDetailsMapper());
@@ -60,7 +75,14 @@ public class CandidateDaoImpl implements CandidateDao
 	@Override
 	public List<Candidate> getCandidateByInstitute(String institute)
 	{
-		String CANDIDATE_BY_INSTITUTE = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where institutes.institute= '"+institute+"';";
+		StringBuilder pattern = new StringBuilder();
+
+		for (char c: institute.toCharArray()) {
+		   pattern.append(c).append("%");
+		}
+		
+//		System.out.println(pattern);
+		String CANDIDATE_BY_INSTITUTE = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where institutes.institute LIKE '%"+pattern+"';";
 		
 		try {
 			return jdbcTemplate.query(CANDIDATE_BY_INSTITUTE, new CandidateAllDetailsMapper());
@@ -72,7 +94,13 @@ public class CandidateDaoImpl implements CandidateDao
 	@Override
 	public List<Candidate> getCandidateByJobDescription(String jobdescription)
 	{
-		String CANDIDATE_BY_JOBDESCRIPTION = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where jobdescriptions.jobdescription= '"+jobdescription+"';";
+		StringBuilder pattern = new StringBuilder();
+
+		for (char c: jobdescription.toCharArray()) {
+		   pattern.append(c).append("%");
+		}
+		
+		String CANDIDATE_BY_JOBDESCRIPTION = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where jobdescriptions.jobdescription LIKE '%"+pattern+"';";
 		
 		try {
 			return jdbcTemplate.query(CANDIDATE_BY_JOBDESCRIPTION, new CandidateAllDetailsMapper());
@@ -84,7 +112,13 @@ public class CandidateDaoImpl implements CandidateDao
 	@Override
 	public List<Candidate> getCandidateBySkill(String skill)
 	{
-		String CANDIDATE_BY_SKILL = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where skills.skill= '"+skill+"';";
+		StringBuilder pattern = new StringBuilder();
+
+		for (char c: skill.toCharArray()) {
+		   pattern.append(c).append("%");
+		}
+		
+		String CANDIDATE_BY_SKILL = "SELECT candidates.empid,candidates.firstname,candidates.lastname,candidates.instituteid,institutes.institute,emp_skills.skillid,skills.skill,candidates.locationid,locations.location,candidates.joiningdate,candidates.jobdescriptionid,jobdescriptions.jobdescription,candidates.feedback,candidates.contactnumber,candidates.email FROM candidates LEFT JOIN emp_skills ON candidates.empid  = emp_skills.empid LEFT JOIN skills ON emp_skills.skillid = skills.skillid LEFT JOIN institutes ON candidates.instituteid = institutes.instituteid LEFT JOIN locations ON candidates.locationid = locations.locationid LEFT JOIN jobdescriptions ON candidates.jobdescriptionid = jobdescriptions.jobdescriptionid where skills.skill= '%"+skill+"';";
 		
 		try {
 			return jdbcTemplate.query(CANDIDATE_BY_SKILL, new CandidateAllDetailsMapper());

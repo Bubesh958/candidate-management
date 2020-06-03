@@ -8,17 +8,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.accolite.aumanagement.candidate_management.dao.SkillDao;
+import com.accolite.aumanagement.candidate_management.dao.TrendDao;
 import com.accolite.aumanagement.candidate_management.model.Skill;
 import com.accolite.aumanagement.candidate_management.model.Trend;
 import com.accolite.aumanagement.candidate_management.model.mapper.SkillRowMapper;
 import com.accolite.aumanagement.candidate_management.model.mapper.TrendRowMapper;
 
 @Repository
-public class TrendDaoImpl
+public class TrendDaoImpl implements TrendDao
 {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	@Override
 	public List<Trend> getSkillsCount()
 	{
 		try {
@@ -28,6 +30,7 @@ public class TrendDaoImpl
 		}
 	}
 	
+	@Override
 	public List<Trend> getInstitutesCount()
 	{
 		try {
@@ -37,6 +40,7 @@ public class TrendDaoImpl
 		}
 	}
 	
+	@Override
 	public List<Trend> getLocationsCount()
 	{
 		try {

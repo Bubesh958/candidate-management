@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.accolite.aumanagement.candidate_management.dao.SkillDao;
-import com.accolite.aumanagement.candidate_management.dao.dao_impl.TrendDaoImpl;
+import com.accolite.aumanagement.candidate_management.dao.TrendDao;
 import com.accolite.aumanagement.candidate_management.model.Skill;
 import com.accolite.aumanagement.candidate_management.model.Trend;
+import com.accolite.aumanagement.candidate_management.service.TrendService;
 
 @CrossOrigin
 @RestController
@@ -21,13 +22,13 @@ import com.accolite.aumanagement.candidate_management.model.Trend;
 public class TrendController 
 {
 	@Autowired
-	TrendDaoImpl trendDao;
+	TrendService trendService;
 	
 	@GetMapping("/skills")
 	public ResponseEntity<?> getSkillsCount()
 	{
 		List<Trend> trends = null;
-		trends = trendDao.getSkillsCount();
+		trends = trendService.getSkillsCount();
 		if(trends.isEmpty())
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
 		return new ResponseEntity<List<Trend>>(trends,HttpStatus.OK);
@@ -37,7 +38,7 @@ public class TrendController
 	public ResponseEntity<?> getInstituesCount()
 	{
 		List<Trend> trends = null;
-		trends = trendDao.getInstitutesCount();
+		trends = trendService.getInstitutesCount();
 		if(trends.isEmpty())
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
 		return new ResponseEntity<List<Trend>>(trends,HttpStatus.OK);
@@ -47,7 +48,7 @@ public class TrendController
 	public ResponseEntity<?> getLocationsCount()
 	{
 		List<Trend> trends = null;
-		trends = trendDao.getLocationsCount();
+		trends = trendService.getLocationsCount();
 		if(trends.isEmpty())
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
 		return new ResponseEntity<List<Trend>>(trends,HttpStatus.OK);

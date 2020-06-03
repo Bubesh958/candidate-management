@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.accolite.aumanagement.candidate_management.dao.LocationDao;
 import com.accolite.aumanagement.candidate_management.model.JobDescription;
 import com.accolite.aumanagement.candidate_management.model.Location;
+import com.accolite.aumanagement.candidate_management.service.LocationService;
 
 @CrossOrigin
 @RestController
@@ -20,14 +21,14 @@ import com.accolite.aumanagement.candidate_management.model.Location;
 public class LocationController 
 {
 	@Autowired
-	LocationDao locationRepository;
+	LocationService locationService;
 	
 
 	@GetMapping
 	public ResponseEntity<?> getAllLocations()
 	{
 		List<Location> locations = null;
-		locations = locationRepository.getAllLocations();
+		locations = locationService.getAllLocations();
 		if(locations.isEmpty())
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
 		return new ResponseEntity<List<Location>>(locations,HttpStatus.OK);

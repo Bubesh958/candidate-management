@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.accolite.aumanagement.candidate_management.dao.SkillDao;
 import com.accolite.aumanagement.candidate_management.model.Location;
 import com.accolite.aumanagement.candidate_management.model.Skill;
+import com.accolite.aumanagement.candidate_management.service.SkillService;
 
 @CrossOrigin
 @RestController
@@ -20,13 +21,13 @@ import com.accolite.aumanagement.candidate_management.model.Skill;
 public class SkillController 
 {
 	@Autowired
-	SkillDao skillRepository;
+	SkillService skillService;
 	
 	@GetMapping
 	public ResponseEntity<?> getAllSkills()
 	{
 		List<Skill> skills = null;
-		skills = skillRepository.getSkills();
+		skills = skillService.getSkills();
 		if(skills.isEmpty())
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
 		return new ResponseEntity<List<Skill>>(skills,HttpStatus.OK);

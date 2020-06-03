@@ -23,6 +23,8 @@ import com.accolite.aumanagement.candidate_management.dao.EmpSkillDao;
 import com.accolite.aumanagement.candidate_management.dao.dao_impl.SkillDaoImpl;
 import com.accolite.aumanagement.candidate_management.model.Candidate;
 import com.accolite.aumanagement.candidate_management.model.EmpSkill;
+import com.accolite.aumanagement.candidate_management.service.CandidateService;
+import com.accolite.aumanagement.candidate_management.service.EmpSkillService;
 
 @CrossOrigin
 @RestController
@@ -30,15 +32,15 @@ import com.accolite.aumanagement.candidate_management.model.EmpSkill;
 public class CandidateController 
 {
 	@Autowired
-	CandidateDao candidateRepository;
+	CandidateService candidateService;
 	
 	@Autowired
-	EmpSkillDao empSkillRepository;
+	EmpSkillService empSkillService;
 	
 	@GetMapping
 	public ResponseEntity<?> getAllCandidates()
 	{
-		List<Candidate> candidates = candidateRepository.getAllCandidate();
+		List<Candidate> candidates = candidateService.getAllCandidate();
 		if(candidates.isEmpty())
 		{
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
@@ -49,7 +51,7 @@ public class CandidateController
 	@GetMapping("/empids")
 	public ResponseEntity<?> getAllCandidatesEmpId()
 	{
-		List<String> candidatesEmpIds = candidateRepository.getAllCandidateEmpIds();
+		List<String> candidatesEmpIds = candidateService.getAllCandidateEmpIds();
 		if(candidatesEmpIds.isEmpty())
 		{
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
@@ -65,20 +67,23 @@ public class CandidateController
 		List<Candidate> candidate = null;
 		switch(by)
 		{
+			case "all" :
+				candidate = candidateService.getAllCandidate();
+				break;
 			case "id" :
-				candidate = candidateRepository.getCandidateByEmpId(value);
+				candidate = candidateService.getCandidateByEmpId(value);
 				break;
 			case "location":
-				candidate = candidateRepository.getCandidateByLocation(value);
+				candidate = candidateService.getCandidateByLocation(value);
 				break;
 			case "institute":
-				candidate = candidateRepository.getCandidateByInstitute(value);
+				candidate = candidateService.getCandidateByInstitute(value);
 				break;
 			case "jobdescription":
-				candidate = candidateRepository.getCandidateByJobDescription(value);
+				candidate = candidateService.getCandidateByJobDescription(value);
 				break;
 			case "skill":
-				candidate = candidateRepository.getCandidateBySkill(value);
+				candidate = candidateService.getCandidateBySkill(value);
 				break;
 			default :
 				return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND); 
@@ -92,15 +97,15 @@ public class CandidateController
 	@PostMapping
 	public ResponseEntity<String> createCandidate(@RequestBody Candidate candidate)
 	{
-		if(candidateRepository.getCandidateByEmpId(candidate.getEmpid()).isEmpty())
+		if(candidateService.getCandidateByEmpId(candidate.getEmpid()).isEmpty())
 		{
-			candidateRepository.saveCandidate(candidate);
+			candidateService.saveCandidate(candidate);
 			List<EmpSkill> empskills = (candidate.getSkills()
 										.stream()
 										.map(s -> new EmpSkill(candidate.getEmpid(),s.getSkillid()))
 										.collect(Collectors.toList()) 
 										);
-			empSkillRepository.saveEmpSkill(empskills);
+			empSkillService.saveEmpSkill(empskills);
 			return new ResponseEntity("Created",HttpStatus.CREATED);
 		}
 		else
@@ -112,24 +117,34 @@ public class CandidateController
 	@PutMapping
 	public ResponseEntity<?> updateCandidate(@RequestBody Candidate candidate)
 	{
-		candidateRepository.updateCandidate(candidate);
+		candidateService.updateCandidate(candidate);
 		List<EmpSkill> empskills = (candidate.getSkills()
 									.stream()
 									.map(s -> new EmpSkill(candidate.getEmpid(),s.getSkillid()))
 									.collect(Collectors.toList()) 
 									);
-		empSkillRepository.deleteEmpSkillById(candidate.getEmpid());
-		empSkillRepository.saveEmpSkill(empskills);
-		return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(empSkillService.deleteEmpSkillById(candidate.getEmpid()) && empSkillService.saveEmpSkill(empskills))
+		{
+			return new ResponseEntity(HttpStatus.NO_CONTENT);			
+		}
+		else
+		{
+			return new ResponseEntity<String>("Couldn't delete.",HttpStatus.NOT_FOUND); 
+		}
 		
 	}
 	
 	@DeleteMapping("/{empid}")
-	public ResponseEntity<String> deleteCandidate(@PathVariable String empid)
+	public ResponseEntity<?> deleteCandidate(@PathVariable String empid)
 	{
-		empSkillRepository.deleteEmpSkillById(empid);
-		candidateRepository.deleteCandidateById(empid);
-		return new ResponseEntity(HttpStatus.NO_CONTENT);
+		if(empSkillService.deleteEmpSkillById(empid) && candidateService.deleteCandidateById(empid))
+		{
+			return new ResponseEntity(HttpStatus.NO_CONTENT);			
+		}
+		else
+		{
+			return new ResponseEntity<String>("Couldn't delete",HttpStatus.NOT_FOUND);
+		}
 	}
 }
 

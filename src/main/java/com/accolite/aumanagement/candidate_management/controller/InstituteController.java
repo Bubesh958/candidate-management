@@ -14,6 +14,7 @@ import com.accolite.aumanagement.candidate_management.dao.InstituteDao;
 import com.accolite.aumanagement.candidate_management.dao.dao_impl.SkillDaoImpl;
 import com.accolite.aumanagement.candidate_management.model.Institute;
 import com.accolite.aumanagement.candidate_management.model.Skill;
+import com.accolite.aumanagement.candidate_management.service.InstituteService;
 
 @CrossOrigin
 @RestController
@@ -21,13 +22,13 @@ import com.accolite.aumanagement.candidate_management.model.Skill;
 public class InstituteController 
 {
 	@Autowired
-	InstituteDao instituteRepository;
+	InstituteService instituteService;
 	
 	@GetMapping
 	public ResponseEntity<?> getAllInstitutes()
 	{
 		List<Institute> institutes = null;
-		institutes = instituteRepository.getAllInstitutes();
+		institutes = instituteService.getAllInstitutes();
 		if(institutes.isEmpty())
 		{
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND); 

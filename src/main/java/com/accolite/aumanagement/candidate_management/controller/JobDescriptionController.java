@@ -14,6 +14,7 @@ import com.accolite.aumanagement.candidate_management.dao.JobDescriptionDao;
 import com.accolite.aumanagement.candidate_management.dao.dao_impl.InstituteDaoImpl;
 import com.accolite.aumanagement.candidate_management.model.Institute;
 import com.accolite.aumanagement.candidate_management.model.JobDescription;
+import com.accolite.aumanagement.candidate_management.service.JobDescriptionService;
 
 @CrossOrigin
 @RestController
@@ -21,13 +22,13 @@ import com.accolite.aumanagement.candidate_management.model.JobDescription;
 public class JobDescriptionController 
 {
 	@Autowired
-	JobDescriptionDao jobDescriptionRepository;
+	JobDescriptionService jobDescriptionService;
 	
 	@GetMapping
 	public ResponseEntity<?> getAllJobDescriptions()
 	{
 		List<JobDescription> jobDescriptions = null;
-		jobDescriptions = jobDescriptionRepository.getAllJobDescriptions();
+		jobDescriptions = jobDescriptionService.getAllJobDescriptions();
 		if(jobDescriptions.isEmpty())
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
 		return new ResponseEntity<List<JobDescription>>(jobDescriptions,HttpStatus.OK);
