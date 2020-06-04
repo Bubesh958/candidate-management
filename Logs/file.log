@@ -1,0 +1,34 @@
+2020-06-04 18:46:55.181  INFO 33380 --- [main] c.a.a.c.CandidateManagementApplication   : Starting CandidateManagementApplication on Ultron with PID 33380 (D:\Users\bubesh\Documents\workspace-spring-tool-suite-4-4.6.1.RELEASE\candidate-management\target\classes started by bubesh in D:\Users\bubesh\Documents\workspace-spring-tool-suite-4-4.6.1.RELEASE\candidate-management)
+2020-06-04 18:46:55.183  INFO 33380 --- [main] c.a.a.c.CandidateManagementApplication   : No active profile set, falling back to default profiles: default
+2020-06-04 18:46:57.378  INFO 33380 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-06-04 18:46:57.390  INFO 33380 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-06-04 18:46:57.392  INFO 33380 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.35]
+2020-06-04 18:46:57.514  INFO 33380 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-06-04 18:46:57.514  INFO 33380 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2283 ms
+2020-06-04 18:46:58.714  INFO 33380 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-06-04 18:46:59.451  INFO 33380 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-06-04 18:46:59.468  INFO 33380 --- [main] c.a.a.c.CandidateManagementApplication   : Started CandidateManagementApplication in 4.754 seconds (JVM running for 5.234)
+2020-06-04 18:48:05.358  INFO 33380 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-06-04 18:48:05.359  INFO 33380 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-06-04 18:48:05.413  INFO 33380 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 54 ms
+2020-06-04 18:48:05.522 ERROR 33380 --- [http-nio-8080-exec-2] c.a.a.c.controller.CandidateController   : hi
+2020-06-04 18:48:05.522  INFO 33380 --- [http-nio-8080-exec-2] c.a.a.c.controller.CandidateController   : hello
+2020-06-04 18:48:05.561  INFO 33380 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-06-04 18:48:07.000  INFO 33380 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-06-04 18:55:34.578  INFO 8684 --- [main] c.a.a.c.CandidateManagementApplication   : Starting CandidateManagementApplication on Ultron with PID 8684 (D:\Users\bubesh\Documents\workspace-spring-tool-suite-4-4.6.1.RELEASE\candidate-management\target\classes started by bubesh in D:\Users\bubesh\Documents\workspace-spring-tool-suite-4-4.6.1.RELEASE\candidate-management)
+2020-06-04 18:55:34.582  INFO 8684 --- [main] c.a.a.c.CandidateManagementApplication   : No active profile set, falling back to default profiles: default
+2020-06-04 18:55:36.978  INFO 8684 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-06-04 18:55:36.990  INFO 8684 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-06-04 18:55:36.990  INFO 8684 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.35]
+2020-06-04 18:55:37.112  INFO 8684 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-06-04 18:55:37.112  INFO 8684 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2474 ms
+2020-06-04 18:55:38.325  INFO 8684 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-06-04 18:55:38.973  INFO 8684 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-06-04 18:55:38.986  INFO 8684 --- [main] c.a.a.c.CandidateManagementApplication   : Started CandidateManagementApplication in 4.996 seconds (JVM running for 5.551)
+2020-06-04 18:55:56.454  INFO 8684 --- [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-06-04 18:55:56.456  INFO 8684 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-06-04 18:55:56.511  INFO 8684 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 52 ms
+2020-06-04 18:55:56.585 ERROR 8684 --- [http-nio-8080-exec-2] c.a.a.c.controller.CandidateController   : hi
+2020-06-04 18:55:56.585  INFO 8684 --- [http-nio-8080-exec-2] c.a.a.c.controller.CandidateController   : hello
+2020-06-04 18:55:56.616  INFO 8684 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-06-04 18:55:58.472  INFO 8684 --- [http-nio-8080-exec-2] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.

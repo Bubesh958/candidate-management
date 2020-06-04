@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import com.accolite.aumanagement.candidate_management.dao.EmpSkillDao;
 import com.accolite.aumanagement.candidate_management.model.EmpSkill;
-import com.accolite.aumanagement.candidate_management.model.Skill;
 import com.accolite.aumanagement.candidate_management.model.mapper.EmpSkillRowMapper;
 
 @Repository

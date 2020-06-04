@@ -7,11 +7,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.accolite.aumanagement.candidate_management.dao.SkillDao;
 import com.accolite.aumanagement.candidate_management.dao.TrendDao;
-import com.accolite.aumanagement.candidate_management.model.Skill;
 import com.accolite.aumanagement.candidate_management.model.Trend;
-import com.accolite.aumanagement.candidate_management.model.mapper.SkillRowMapper;
 import com.accolite.aumanagement.candidate_management.model.mapper.TrendRowMapper;
 
 @Repository

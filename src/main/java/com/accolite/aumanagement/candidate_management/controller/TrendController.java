@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.accolite.aumanagement.candidate_management.dao.SkillDao;
-import com.accolite.aumanagement.candidate_management.dao.TrendDao;
-import com.accolite.aumanagement.candidate_management.model.Skill;
 import com.accolite.aumanagement.candidate_management.model.Trend;
 import com.accolite.aumanagement.candidate_management.service.TrendService;
 

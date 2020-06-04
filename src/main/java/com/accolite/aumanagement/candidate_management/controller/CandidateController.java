@@ -1,8 +1,9 @@
 package com.accolite.aumanagement.candidate_management.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,13 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.accolite.aumanagement.candidate_management.dao.CandidateDao;
-import com.accolite.aumanagement.candidate_management.dao.EmpSkillDao;
-import com.accolite.aumanagement.candidate_management.dao.dao_impl.SkillDaoImpl;
 import com.accolite.aumanagement.candidate_management.model.Candidate;
 import com.accolite.aumanagement.candidate_management.model.EmpSkill;
 import com.accolite.aumanagement.candidate_management.service.CandidateService;
 import com.accolite.aumanagement.candidate_management.service.EmpSkillService;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.slf4j.LoggerFactory;
+
 
 @CrossOrigin
 @RestController
@@ -37,25 +41,36 @@ public class CandidateController
 	@Autowired
 	EmpSkillService empSkillService;
 	
+	org.slf4j.Logger logger = LoggerFactory.getLogger(CandidateController.class);
+	
+
 	@GetMapping
 	public ResponseEntity<?> getAllCandidates()
 	{
+		logger.info("Requesting For All Candidates");
+		
+		
 		List<Candidate> candidates = candidateService.getAllCandidate();
 		if(candidates.isEmpty())
 		{
+			logger.error(HttpStatus.NOT_FOUND.toString());
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
 		}
+		logger.info(HttpStatus.OK.toString());
 		return new ResponseEntity<List<Candidate>>(candidates,HttpStatus.OK);
 	}
 	
 	@GetMapping("/empids")
 	public ResponseEntity<?> getAllCandidatesEmpId()
 	{
+		logger.info("Requesting For All Candidate EmpIds");
 		List<String> candidatesEmpIds = candidateService.getAllCandidateEmpIds();
 		if(candidatesEmpIds.isEmpty())
 		{
+			logger.error(HttpStatus.NOT_FOUND.toString());	
 			return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
 		}
+		logger.info(HttpStatus.OK.toString());
 		return new ResponseEntity<List<String>>(candidatesEmpIds,HttpStatus.OK);
 	}
 	
@@ -64,6 +79,7 @@ public class CandidateController
 	@GetMapping("/{value}")
 	public ResponseEntity<?> getCandidateBy(@RequestParam(value="by") String by,@PathVariable("value") String value)
 	{
+		logger.info("Requesting For Candidate By " + by + " : "  + value);
 		List<Candidate> candidate = null;
 		switch(by)
 		{
@@ -86,10 +102,12 @@ public class CandidateController
 				candidate = candidateService.getCandidateBySkill(value);
 				break;
 			default :
-				return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND); 
+				logger.error(HttpStatus.NOT_FOUND.toString());	
+				return new ResponseEntity<String>("Empty",HttpStatus.NOT_FOUND);
+				
 					
 		}
-		
+		logger.info(HttpStatus.OK.toString());
 		return new ResponseEntity<List<Candidate>>(candidate,HttpStatus.OK);
 	}
 	
@@ -97,6 +115,8 @@ public class CandidateController
 	@PostMapping
 	public ResponseEntity<String> createCandidate(@RequestBody Candidate candidate)
 	{
+		logger.info("Requesting to Create Candidate ");
+		System.out.println(candidate);
 		if(candidateService.getCandidateByEmpId(candidate.getEmpid()).isEmpty())
 		{
 			candidateService.saveCandidate(candidate);
@@ -106,10 +126,12 @@ public class CandidateController
 										.collect(Collectors.toList()) 
 										);
 			empSkillService.saveEmpSkill(empskills);
+			logger.info(HttpStatus.CREATED.toString());
 			return new ResponseEntity("Created",HttpStatus.CREATED);
 		}
 		else
 		{
+			logger.warn(HttpStatus.IM_USED.toString());
 			return new ResponseEntity("Duplicate Entry",HttpStatus.IM_USED);
 		}
 	}
@@ -117,6 +139,7 @@ public class CandidateController
 	@PutMapping
 	public ResponseEntity<?> updateCandidate(@RequestBody Candidate candidate)
 	{
+		logger.info("Requesting to Update Candidate : "+ candidate.getEmpid());
 		candidateService.updateCandidate(candidate);
 		List<EmpSkill> empskills = (candidate.getSkills()
 									.stream()
@@ -125,25 +148,30 @@ public class CandidateController
 									);
 		if(empSkillService.deleteEmpSkillById(candidate.getEmpid()) && empSkillService.saveEmpSkill(empskills))
 		{
+			logger.info(HttpStatus.NO_CONTENT.toString());
 			return new ResponseEntity(HttpStatus.NO_CONTENT);			
 		}
 		else
 		{
+			logger.info(HttpStatus.NOT_FOUND.toString());
 			return new ResponseEntity<String>("Couldn't delete.",HttpStatus.NOT_FOUND); 
 		}
 		
 	}
 	
 	@DeleteMapping("/{empid}")
-	public ResponseEntity<?> deleteCandidate(@PathVariable String empid)
+	public ResponseEntity deleteCandidate(@PathVariable String empid)
 	{
+		logger.info("Requesting to Delete Candidate : "+ empid);
 		if(empSkillService.deleteEmpSkillById(empid) && candidateService.deleteCandidateById(empid))
 		{
+			logger.info(HttpStatus.NO_CONTENT.toString());
 			return new ResponseEntity(HttpStatus.NO_CONTENT);			
 		}
 		else
 		{
-			return new ResponseEntity<String>("Couldn't delete",HttpStatus.NOT_FOUND);
+			logger.info(HttpStatus.NOT_FOUND.toString());
+			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
 	}
 }

@@ -2,9 +2,11 @@ package com.accolite.aumanagement.candidate_management.service.service_impl;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.accolite.aumanagement.candidate_management.controller.CandidateController;
 import com.accolite.aumanagement.candidate_management.dao.CandidateDao;
 import com.accolite.aumanagement.candidate_management.dao.EmpSkillDao;
 import com.accolite.aumanagement.candidate_management.model.Candidate;
@@ -18,6 +20,8 @@ public class CandidateServiceImpl implements CandidateService
 	
 	@Autowired
 	EmpSkillDao empSkillDao;
+	
+
 	
 	@Override
 	public List<Candidate> getAllCandidate()
