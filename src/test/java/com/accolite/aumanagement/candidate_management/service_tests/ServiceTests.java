@@ -1,9 +1,13 @@
-package com.accolite.aumanagement;
+package com.accolite.aumanagement.candidate_management.service_tests;
 
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,30 +22,38 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.accolite.aumanagement.candidate_management.controller.CandidateController;
 import com.accolite.aumanagement.candidate_management.dao.CandidateDao;
 import com.accolite.aumanagement.candidate_management.dao.EmpSkillDao;
 import com.accolite.aumanagement.candidate_management.dao.InstituteDao;
 import com.accolite.aumanagement.candidate_management.dao.LocationDao;
 import com.accolite.aumanagement.candidate_management.dao.SkillDao;
+import com.accolite.aumanagement.candidate_management.dao.TrendDao;
 import com.accolite.aumanagement.candidate_management.model.Candidate;
 import com.accolite.aumanagement.candidate_management.model.Institute;
 import com.accolite.aumanagement.candidate_management.model.Location;
 import com.accolite.aumanagement.candidate_management.model.Skill;
+import com.accolite.aumanagement.candidate_management.model.Trend;
 import com.accolite.aumanagement.candidate_management.service.CandidateService;
 import com.accolite.aumanagement.candidate_management.service.InstituteService;
 import com.accolite.aumanagement.candidate_management.service.LocationService;
 import com.accolite.aumanagement.candidate_management.service.SkillService;
+import com.accolite.aumanagement.candidate_management.service.TrendService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes=com.accolite.aumanagement.candidate_management.CandidateManagementApplication.class)
-class CandidateManagementApplicationTests {
+@SpringBootTest
+class ServiceTests {
 
 	@Autowired
 	CandidateService candidateService;
@@ -55,6 +67,9 @@ class CandidateManagementApplicationTests {
 	@Autowired
 	InstituteService instituteService;
 	
+	@Autowired
+	TrendService trendService;
+	
 	@MockBean
 	CandidateDao candidateDao;
 	
@@ -67,7 +82,10 @@ class CandidateManagementApplicationTests {
 	@MockBean
 	SkillDao skillDao;
 	
+	@MockBean
+	TrendDao trendDao;
 	
+
 	@Test
 	void deleteCandidatByIdShouldReturnFalseWhenTheDataDoesNotExists()
 	{
@@ -206,6 +224,15 @@ class CandidateManagementApplicationTests {
 	{
 		when(locationDao.getAllLocations()).thenReturn(new ArrayList<>());
 		assertEquals(0,locationService.getAllLocations().size());
+	}
+	
+	
+	@Test
+	public void getLocationsCountShouldReturnAllLocationsCount() throws Exception
+	{
+		List<Trend> trends = new ArrayList<Trend>(Stream.of( new Trend(1,"pune"), new Trend(2,"delhi")).collect(Collectors.toList()));
+		when(trendDao.getLocationsCount()).thenReturn(trends);
+		assertTrue(1 < trendService.getLocationsCount().size());
 	}
 	
 
