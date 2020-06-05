@@ -1,5 +1,6 @@
 package com.accolite.aumanagement.candidate_management.model;
 
+
 public class EmpSkill 
 {
 	private String empid;

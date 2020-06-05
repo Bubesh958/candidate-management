@@ -3,8 +3,13 @@ package com.accolite.aumanagement.candidate_management.model;
 import java.sql.Date;
 import java.util.List;
 
-public class Candidate {
 
+
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+
+public class Candidate {
+	
 	private String empid;
 	private String firstname;
 	private String lastname;
