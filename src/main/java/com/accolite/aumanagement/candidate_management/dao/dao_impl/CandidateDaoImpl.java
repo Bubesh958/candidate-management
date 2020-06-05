@@ -28,7 +28,6 @@ public class CandidateDaoImpl implements CandidateDao
 		
 		return jdbcTemplate.query(CANDIDATES_WITH_ALL_DETAILS, new CandidateAllDetailsMapper());
 	}
-	
 
 
 	@Override

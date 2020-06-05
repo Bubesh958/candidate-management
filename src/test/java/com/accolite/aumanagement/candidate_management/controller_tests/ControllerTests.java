@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.accolite.aumanagement.candidate_management.CandidateManagementApplication;
 import com.accolite.aumanagement.candidate_management.controller.CandidateController;
@@ -87,6 +91,15 @@ public class ControllerTests
 	TrendService trendService;
 	
 	
+	@Autowired
+	private WebApplicationContext context;
+	
+	@Before
+	public void setUp() {
+		mvc = MockMvcBuilders.webAppContextSetup(context).build();
+	}
+
+	
 	@Test
 	public void getAllCandidatesShouldReturnAllCandidates() throws Exception
 	{
@@ -98,9 +111,32 @@ public class ControllerTests
 		mvc.perform(get("/candidates"))
 			.andExpect(status().isOk())
 			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-	}
-
+		
+		}
 	
+
+	@Test
+	public void createCandidatesShouldReturnCreatedHttpStatus() throws Exception
+	{
+		List<Skill> skills = new ArrayList<Skill>(Stream.of( new Skill(1,"java"), new Skill(2,"c++")).collect(Collectors.toList()));
+		ObjectMapper om = new ObjectMapper();
+		String jsonRequest = om.writeValueAsString(new Candidate("124","john","j",2,"mit",skills,2,"pune",new java.sql.Date(Calendar.getInstance().getTime().getTime()),2,"software Engineer","good","1245567890","john958@gmail.com"));
+		MvcResult result = mvc.perform(post("/candidates").content(jsonRequest)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isCreated()).andReturn();	
+	}
+	
+	@Test
+	public void deleteCandidatesShouldReturnNoContentHttpStatus() throws Exception
+	{
+		List<Skill> skills = new ArrayList<Skill>(Stream.of( new Skill(1,"java"), new Skill(2,"c++")).collect(Collectors.toList()));
+		ObjectMapper om = new ObjectMapper();
+		when(candidateservice.deleteCandidateById("123")).thenReturn(true);
+		when(empSkillService.deleteEmpSkillById("123")).thenReturn(true);
+		mvc.perform(delete("/candidates/{empid}","123"))
+		.andExpect(status().isNoContent());	
+	}
+	
+
 	
 	@Test
 	public void getAllEmpSkillsShouldReturnOkHttpStatus() throws Exception
@@ -111,6 +147,7 @@ public class ControllerTests
 		.andExpect(status().isOk())
 		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 	}
+
 	
 	@Test
 	public void getAllInstitutesShouldReturnOkHttpStatus() throws Exception
@@ -120,6 +157,7 @@ public class ControllerTests
 		mvc.perform(get("/institutes"))
 		.andExpect(status().isOk())
 		.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+	
 	}
 	
 	
